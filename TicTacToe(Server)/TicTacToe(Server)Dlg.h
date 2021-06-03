@@ -8,7 +8,7 @@
 // Диалоговое окно CTicTacToeServerDlg
 class CTicTacToeServerDlg : public CDialog
 {
-// Создание
+	// Создание
 public:
 	CTicTacToeServerDlg(CWnd* pParent = nullptr);	// стандартный конструктор
 
@@ -17,7 +17,7 @@ public:
 	enum { IDD = IDD_TICTACTOESERVER_DIALOG };
 #endif
 
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// поддержка DDX/DDV
 
 
