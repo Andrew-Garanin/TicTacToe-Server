@@ -34,6 +34,8 @@ typedef struct Pair {
 
 BOOL CreateSocketInformation(SOCKET s, char* Str, CListBox* pLB);
 
+void ScroolToLastItem(HWND hWnd_LB);
+
 void FreeSocketInformation(DWORD Event, char* Str, CListBox* pLB);
 
 void FreePairInformation(DWORD Event, char* Str, CListBox* pLB);
@@ -211,6 +213,7 @@ UINT ListenThread(PVOID lpParam)
 	//Начинаем в цикле обработку происходящих событий.Характер об - работки, разумеется, зависит от типа события.Сначала дождемся уве - домления о событии посредством функции WSAWaitForMultipleEvents().После этого информация о событии находится в структуре NetworkEvents.
 	while (TRUE)
 	{
+		ScroolToLastItem(hWnd_LB);// Автоматическое пролистывание списка в конец
 		// Дожидаемся уведомления о событии на любом сокете
 		//WSAWaitForMultipleEvents Возврящает управление, когда один из заданных объектов событий 
 		//перейдет в свободное состояние, либо исчезнет заданный тайм-аут
@@ -447,6 +450,7 @@ UINT ListenThread(PVOID lpParam)
 					strncpy_s(Str, SocketInfo->Buffer, l);
 					Str[l] = 0;
 					pLB->AddString(Str);
+					ScroolToLastItem(hWnd_LB);// Автоматическое пролистывание списка в конец
 				}
 			}
 
@@ -706,4 +710,12 @@ void FreePairInformation(DWORD Event, char* Str, CListBox* pLB)
 			break;
 		}
 	}
+}
+
+void ScroolToLastItem(HWND hWnd_LB)
+{
+	CListBox* pLB = (CListBox*)(CListBox::FromHandle(hWnd_LB));
+	int nNumItems = pLB->GetCount();
+	pLB->SetCurSel(nNumItems - 1);
+	pLB->SetCurSel(-1);
 }
